@@ -1,18 +1,73 @@
 #{extends 'main.html' /}
 
-                        <!--<span style="font-size: 300px;" > </span>-->
+<!--<span style="font-size: 300px;" > </span>-->
+<script>
+    $(function() {
+        $("#accordion").accordion();
+        $('div p').each(function() {
+            var htmlstr = $(this).text();
+
+            $(this).replaceWith(htmlstr);
+
+        });
+         $('h3 a').each(function() {
+            var htmlstr = $(this).text();
+
+            $(this).replaceWith(htmlstr);
+
+        });
+
+        $(function() {
+            $( "#tabs" ).tabs();
+        });
 
 
+    });
+</script>
 
 
+        <div id="tabs">
+	<ul>
+		<li><a href="#tabs-1">Stats</a></li>
+		<li><a href="#tabs-2">Articles</a></li>
 
-<div class="container">
+	</ul>
+	<div id="tabs-1">
+		<p><div class="container">
 
-    <div class="container sub-container right bottom"><span class="text"> ${aov.activityWrappers.size} </span> posts</div>
-    <div class="container sub-container bottom"><span class="text">${aov.compileAveragePlusOnePage} </span>+1</div>
-    <div class="container sub-container right"><span class="text">10</span></div>
-    <div class="container sub-container"><span class="text">65</span></div>
+    <div class="container sub-container right bottom"><span class="text"> ${aov.activityWrappers.size} </span> posts
+    </div>
+    <div class="container sub-container bottom"><span class="text">${aov.compileSumPlusOnePage} </span>+1</div>
+    <div class="container sub-container right"><span class="text">${aov.compileSumShared} </span>shared</div>
+    <div class="container sub-container "><span class="text bestArticle">${aov.bestTitrePost}</span> <span
+            class="text redactorbestArticle"> by ${aov.bestNamePost}</span></div>
+</div></p>
+	</div>
+	<div id="tabs-2">
+		<p><div class="articles">
+
+    <div id="accordion">
+        #{list items:aov.activityWrappers, as:'task'}
+        <h3><a href="#">${task.title} by ${task.author}</a></h3>
+
+        <div>
+            <p>
+                ${task.content}
+            </p>
+        </div>
+        #{/list}
+
+
+    </div>
+
+</div></p>
+	</div>
+
 </div>
+
+
+
+
 
 
 
