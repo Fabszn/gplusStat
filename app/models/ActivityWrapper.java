@@ -12,11 +12,10 @@ import models.utils.Utils;
  */
 public class ActivityWrapper {
 
-	private Activity activity = null;
+
 	private ActivityObject plusObject = null;
 
 	public ActivityWrapper(final Activity activity) {
-		this.activity = activity;
 		plusObject = activity.getPlusObject();
 	}
 
@@ -49,5 +48,7 @@ public class ActivityWrapper {
     public String getTitle(){
         return Utils.getActivityTitle(this);
     }
+
+
 
 }

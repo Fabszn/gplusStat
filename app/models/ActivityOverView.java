@@ -2,10 +2,13 @@ package models;
 
 
 import com.google.common.base.Function;
+import com.google.common.base.Joiner;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 import models.utils.Utils;
+import org.codehaus.groovy.runtime.wrappers.LongWrapper;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -13,8 +16,7 @@ import org.jsoup.select.Elements;
 
 
 import javax.annotation.Nullable;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,28 +33,57 @@ public class ActivityOverView {
 
 
     public String getBestNamePost() {
-
-
         ActivityWrapper aw = Ordering.natural().onResultOf(new CompileBestPost()).greatestOf(activityWrappers, 1).get(0);
-
-
-        return Utils.getActivityAuthor(aw) ;
+        return Utils.getActivityAuthor(aw);
     }
 
     public String getBestTitrePost() {
-
-
         ActivityWrapper aw = Ordering.natural().onResultOf(new CompileBestPost()).greatestOf(activityWrappers, 1).get(0);
 
-        return Utils.getActivityTitle(aw) ;
+        return Utils.getActivityTitle(aw);
     }
 
+    public String getPlusOneMatrix() {
+        Map<String, Long> matrix = Maps.newHashMap();
+        for (ActivityWrapper aw : activityWrappers) {
+            matrix.put(aw.getTitle(), aw.getNbPlusOners());
+        }
 
+         return Joiner.on(",").join(matrix.values());
+    }
+    public String getSharedMatrix() {
+        Map<String, Long> matrix = Maps.newHashMap();
+        for (ActivityWrapper aw : activityWrappers) {
+            matrix.put(aw.getTitle(), aw.getNbReshared());
+        }
+
+         return Joiner.on(",").join(matrix.values());
+    }
+    public String getTitleMatrix() {
+        Map<String, Long> matrix = Maps.newHashMap();
+        for (ActivityWrapper aw : activityWrappers) {
+            matrix.put(aw.getTitle(), aw.getNbPlusOners());
+        }
+
+
+           return Joiner.on("', ' ").join(matrix.keySet());
+    }
+
+    /**
+     * compile each plus one
+     *
+     * @return
+     */
     public Long getCompileSumPlusOnePage() {
         Function<Iterator<ActivityWrapper>, Long> f = recurssiveFunctionOnePlus();
         return f.apply(activityWrappers.iterator());
     }
 
+    /**
+     * Compile all time that one post has shared
+     *
+     * @return
+     */
     public Long getCompileSumShared() {
         Function<Iterator<ActivityWrapper>, Long> f = recurssiveFunctionShared();
         return f.apply(activityWrappers.iterator());

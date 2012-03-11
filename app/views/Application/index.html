@@ -10,7 +10,7 @@
             $(this).replaceWith(htmlstr);
 
         });
-         $('h3 a').each(function() {
+        $('h3 a').each(function() {
             var htmlstr = $(this).text();
 
             $(this).replaceWith(htmlstr);
@@ -18,7 +18,30 @@
         });
 
         $(function() {
-            $( "#tabs" ).tabs();
+            $("#tabs").tabs();
+        });
+
+
+        $(function () {
+            var barPlusOne = new RGraph.Bar('plusOne', [${aov.plusOneMatrix}]);
+            barPlusOne.Set('chart.gutter.left', 32);
+            barPlusOne.Set('chart.gutter.bottom', 200);
+
+            barPlusOne.Set('chart.colors', ['red']);
+            barPlusOne.Set('chart.title', 'Number of plus one by article');
+            barPlusOne.Set('chart.labels', ['${aov.titleMatrix}']);
+            barPlusOne.Set('chart.text.angle', 90);
+            barPlusOne.Draw();
+
+            var barShared = new RGraph.Bar('shared', [${aov.sharedMatrix}]);
+            barShared.Set('chart.gutter.left', 32);
+            barShared.Set('chart.gutter.bottom', 200);
+
+            barShared.Set('chart.colors', ['red']);
+            barShared.Set('chart.title', 'Number of share by article');
+            barShared.Set('chart.labels', ['${aov.titleMatrix}']);
+            barShared.Set('chart.text.angle', 90);
+            barShared.Draw();
         });
 
 
@@ -26,44 +49,61 @@
 </script>
 
 
-        <div id="tabs">
-	<ul>
-		<li><a href="#tabs-1">Stats</a></li>
-		<li><a href="#tabs-2">Articles</a></li>
+<div id="tabs">
+    <ul>
+        <li><a href="#tabs-1">Stats</a></li>
+        <li><a href="#tabs-2">Articles</a></li>
+        <li><a href="#tabs-3">Graphs</a></li>
 
-	</ul>
-	<div id="tabs-1">
-		<p><div class="container">
+    </ul>
+    <div id="tabs-1">
+        <p>
 
-    <div class="container sub-container right bottom"><span class="text"> ${aov.activityWrappers.size} </span> posts
-    </div>
-    <div class="container sub-container bottom"><span class="text">${aov.compileSumPlusOnePage} </span>+1</div>
-    <div class="container sub-container right"><span class="text">${aov.compileSumShared} </span>shared</div>
-    <div class="container sub-container "><span class="text bestArticle">${aov.bestTitrePost}</span> <span
-            class="text redactorbestArticle"> by ${aov.bestNamePost}</span></div>
-</div></p>
-	</div>
-	<div id="tabs-2">
-		<p><div class="articles">
+        <div class="container">
 
-    <div id="accordion">
-        #{list items:aov.activityWrappers, as:'task'}
-        <h3><a href="#">${task.title} by ${task.author}</a></h3>
-
-        <div>
-            <p>
-                ${task.content}
-            </p>
+            <div class="container sub-container right bottom"><span class="text"> ${aov.activityWrappers.size} </span>
+                posts
+            </div>
+            <div class="container sub-container bottom"><span class="text">${aov.compileSumPlusOnePage} </span>+1</div>
+            <div class="container sub-container right"><span class="text">${aov.compileSumShared} </span>shared</div>
+            <div class="container sub-container "><span class="text bestArticle">${aov.bestTitrePost}</span> <span
+                    class="text redactorbestArticle"> by ${aov.bestNamePost}</span></div>
         </div>
-        #{/list}
-
-
+        </p>
     </div>
+    <div id="tabs-2">
+        <p>
 
-</div></p>
-	</div>
+        <div class="articles">
+
+            <div id="accordion">
+                #{list items:aov.activityWrappers, as:'task'}
+                <h3><a href="#">${task.title} by ${task.author}</a></h3>
+
+                <div>
+                    <p>
+                        ${task.content}
+                    </p>
+                </div>
+                #{/list}
+
+
+            </div>
+
+
+        </div>
+        </p>
+    </div>
+    <div id="tabs-3">
+       <canvas id="plusOne" width="1000" height="500">[No canvas support]</canvas>
+        <br>
+        <br>
+        <canvas id="shared" width="1000" height="500">[No canvas support]</canvas>
+    </div>
 
 </div>
+
+
 
 
 

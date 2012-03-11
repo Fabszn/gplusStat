@@ -1,24 +1,20 @@
 package controllers;
 
-import com.google.api.client.googleapis.json.GoogleJsonError;
-import com.google.api.client.http.HttpResponseException;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.Json;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson.JacksonFactory;
-import com.google.api.client.util.Strings;
 import com.google.api.services.plus.Plus;
 import com.google.api.services.plus.model.Activity;
 import com.google.api.services.plus.model.ActivityFeed;
 import com.google.common.collect.Lists;
-import play.*;
-import play.mvc.*;
+import models.ActivityOverView;
+import models.ActivityWrapper;
+import models.utils.Utils;
+import play.mvc.Controller;
 
 import java.io.IOException;
-import java.util.*;
-
-import models.*;
+import java.util.List;
 
 public class Application extends Controller {
     final static JsonFactory jsonFactory = new JacksonFactory();
@@ -30,10 +26,10 @@ public class Application extends Controller {
         final Plus plus = new Plus(httpTransport, jsonFactory);
         // When we do not specify access tokens, we must specify our API key
         // instead
-        String key = Play.configuration.getProperty("google.key");
+        String key = Utils.getValueFromGplusConf("google.key");
 
         plus.setKey(key);
-        final Plus.Activities.List listActivities = plus.activities.list(Play.configuration.getProperty("google.id.page"), "public");
+        final Plus.Activities.List listActivities = plus.activities.list(Utils.getValueFromGplusConf("google.id.page"), "public");
 
         // Fetch the first page of activities
 
@@ -46,26 +42,14 @@ public class Application extends Controller {
 
         try {
             feed = listActivities.execute();
-
-            // Keep track of the page number in case we're listing activities
-            // for a user with thousands of activities. We'll limit ourselves
-            // to 5 pages
-            System.out.println("Start");
-
-
             // Execute and process the next page request
             feed = listActivities.execute();
-
-
-            for (final Activity activity : feed.getItems()) {
+           for (final Activity activity : feed.getItems()) {
 
                 final ActivityWrapper activityWrapper = new ActivityWrapper(activity);
                 activityWrappers.add(activityWrapper);
             }
-
-
-        } catch (final IOException e) {
-            // TODO Auto-generated catch block
+       } catch (final IOException e) {
             e.printStackTrace();
         }
         ActivityOverView aov = new ActivityOverView();
