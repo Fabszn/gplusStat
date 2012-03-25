@@ -1,6 +1,7 @@
 package models;
 
 
+import com.google.api.client.json.Json;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Collections2;
@@ -16,6 +17,7 @@ import org.jsoup.select.Elements;
 
 
 import javax.annotation.Nullable;
+import javax.xml.bind.util.JAXBSource;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -59,14 +61,14 @@ public class ActivityOverView {
 
          return Joiner.on(",").join(matrix.values());
     }
-    public String getTitleMatrix() {
+    public Set<String> getTitleMatrix() {
         Map<String, Long> matrix = Maps.newHashMap();
         for (ActivityWrapper aw : activityWrappers) {
             matrix.put(aw.getTitle(), aw.getNbPlusOners());
         }
 
 
-           return Joiner.on("', ' ").join(matrix.keySet());
+           return matrix.keySet();
     }
 
     /**
@@ -121,7 +123,6 @@ public class ActivityOverView {
                 } else {
 
                     Long nbPlusOne = activityWrappers.next().getNbPlusOners();
-
                     final Long nb = (nbPlusOne != null ? nbPlusOne : ZERO);
                     final Long r = apply(activityWrappers);
 

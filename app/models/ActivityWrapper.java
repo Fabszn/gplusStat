@@ -26,9 +26,10 @@ public class ActivityWrapper {
 
 	public Long getNbPlusOners() {
 		if (plusObject.getPlusoners() == null) {
-			return 0L;
+			System.out.println("none item");
+            return 0L;
 		}
-
+            System.out.println("test" +plusObject.getPlusoners().getTotalItems());
 		return plusObject.getPlusoners().getTotalItems();
 	}
 
@@ -48,7 +49,6 @@ public class ActivityWrapper {
     public String getTitle(){
         return Utils.getActivityTitle(this);
     }
-
 
 
 }

@@ -20,6 +20,7 @@ public class Application extends Controller {
     final static JsonFactory jsonFactory = new JacksonFactory();
     final static HttpTransport httpTransport = new NetHttpTransport();
 
+
     public static void index() {
 
 
@@ -35,26 +36,26 @@ public class Application extends Controller {
 
         listActivities.setMaxResults(100L);
         // Pro tip: Use partial responses to improve response time considerably
-        listActivities.setFields("nextPageToken,items(id,url,published,object(content,plusoners,resharers))");
+        listActivities.setFields("nextPageToken,items(id,url,object(content,plusoners,resharers))");
 
         ActivityFeed feed = null;
-        List<ActivityWrapper> activityWrappers = Lists.newArrayList();
+        final List<ActivityWrapper> activityWrappers = Lists.newArrayList();
 
         try {
-            feed = listActivities.execute();
             // Execute and process the next page request
             feed = listActivities.execute();
            for (final Activity activity : feed.getItems()) {
 
                 final ActivityWrapper activityWrapper = new ActivityWrapper(activity);
-                activityWrappers.add(activityWrapper);
+
+               activityWrappers.add(activityWrapper);
             }
        } catch (final IOException e) {
             e.printStackTrace();
         }
         ActivityOverView aov = new ActivityOverView();
         aov.setActivityWrappers(activityWrappers);
-        ;
+
         render(aov);
     }
 
