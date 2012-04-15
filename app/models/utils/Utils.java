@@ -32,10 +32,17 @@ public class Utils {
     }
 
     private static String extractContent(String baliseName, ActivityWrapper activityWrapper) {
+        String content = "Unkown";
+
         Document doc = Jsoup.parse(activityWrapper.getContent());
 
         Elements elem = doc.getElementsByTag(baliseName);
-        return elem.get(0).html();
+
+        if (elem != null && elem.size() != 0) {
+            content = elem.get(0).html();
+        }
+
+        return content;
 
     }
 
