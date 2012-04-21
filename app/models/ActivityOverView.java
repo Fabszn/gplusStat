@@ -1,26 +1,16 @@
 package models;
 
 
-import com.google.api.client.json.Json;
+import com.google.api.client.util.DateTime;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
-import com.google.common.collect.Collections2;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
+import models.utils.ActivityComparator;
 import models.utils.Utils;
-import org.codehaus.groovy.runtime.wrappers.LongWrapper;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
 
 import javax.annotation.Nullable;
-import javax.xml.bind.util.JAXBSource;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Gives an overview of all informations which are required in GUI .
@@ -46,29 +36,32 @@ public class ActivityOverView {
     }
 
     public String getPlusOneMatrix() {
-        Map<String, Long> matrix = Maps.newHashMap();
+        Map<Date, Long> matrix = Maps.newTreeMap();
         for (ActivityWrapper aw : activityWrappers) {
-            matrix.put(aw.getTitle(), aw.getNbPlusOners());
+            matrix.put(new Date(aw.getPublicationDate().getValue()), aw.getNbPlusOners());
         }
 
-         return Joiner.on(",").join(matrix.values());
+        return Joiner.on(",").join(matrix.values());
     }
+
     public String getSharedMatrix() {
-        Map<String, Long> matrix = Maps.newHashMap();
+        Map<Date, Long> matrix = Maps.newTreeMap();
+
         for (ActivityWrapper aw : activityWrappers) {
-            matrix.put(aw.getTitle(), aw.getNbReshared());
+            matrix.put(new Date(aw.getPublicationDate().getValue()), aw.getNbReshared());
         }
 
-         return Joiner.on(",").join(matrix.values());
+        return Joiner.on(",").join(matrix.values());
     }
-    public Set<String> getTitleMatrix() {
-        Map<String, Long> matrix = Maps.newHashMap();
+
+    public Collection<String> getTitleMatrix() {
+        Map<Date, String> matrix = Maps.newTreeMap();
         for (ActivityWrapper aw : activityWrappers) {
-            matrix.put(aw.getTitle(), aw.getNbPlusOners());
+            matrix.put(new Date(aw.getPublicationDate().getValue()), aw.getTitle());
         }
 
 
-           return matrix.keySet();
+        return matrix.values();
     }
 
     /**
@@ -135,10 +128,15 @@ public class ActivityOverView {
 
 
     public List<ActivityWrapper> getActivityWrappers() {
+
+
         return activityWrappers;
     }
 
     public void setActivityWrappers(List<ActivityWrapper> activityWrappers) {
+
+
+
         this.activityWrappers = activityWrappers;
     }
 }
