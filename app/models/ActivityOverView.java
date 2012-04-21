@@ -1,12 +1,10 @@
 package models;
 
 
-import com.google.api.client.util.DateTime;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
-import models.utils.ActivityComparator;
 import models.utils.Utils;
 
 import javax.annotation.Nullable;

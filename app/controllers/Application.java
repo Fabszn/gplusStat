@@ -8,16 +8,13 @@ import com.google.api.services.plus.Plus;
 import com.google.api.services.plus.model.Activity;
 import com.google.api.services.plus.model.ActivityFeed;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import models.ActivityOverView;
 import models.ActivityWrapper;
-import models.utils.ActivityComparator;
 import models.utils.Utils;
 import play.mvc.Controller;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Set;
 
 public class Application extends Controller {
     final static JsonFactory jsonFactory = new JacksonFactory();
