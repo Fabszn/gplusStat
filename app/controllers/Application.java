@@ -8,9 +8,9 @@ import com.google.api.services.plus.Plus;
 import com.google.api.services.plus.model.Activity;
 import com.google.api.services.plus.model.ActivityFeed;
 import com.google.common.collect.Lists;
-import models.ActivityOverView;
+import models.ActivitiesHelper;
 import models.ActivityWrapper;
-import models.utils.Utils;
+import models.utils.HtmlUtils;
 import play.mvc.Controller;
 
 import java.io.IOException;
@@ -27,10 +27,10 @@ public class Application extends Controller {
         final Plus plus = new Plus(httpTransport, jsonFactory);
         // When we do not specify access tokens, we must specify our API key
         // instead
-        String key = Utils.getValueFromGplusConf("google.key");
+        String key = HtmlUtils.getValueFromGplusConf("google.key");
 
         plus.setKey(key);
-        final Plus.Activities.List listActivities = plus.activities.list(Utils.getValueFromGplusConf("google.id.page"), "public");
+        final Plus.Activities.List listActivities = plus.activities.list(HtmlUtils.getValueFromGplusConf("google.id.page"), "public");
 
         // Fetch the first page of activities
 
@@ -53,7 +53,7 @@ public class Application extends Controller {
        } catch (final IOException e) {
             e.printStackTrace();
         }
-        ActivityOverView aov = new ActivityOverView();
+        ActivitiesHelper aov = new ActivitiesHelper();
         aov.setActivityWrappers(activityWrappers);
 
         render(aov);

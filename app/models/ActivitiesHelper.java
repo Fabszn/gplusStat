@@ -5,7 +5,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
-import models.utils.Utils;
+import models.utils.HtmlUtils;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -16,7 +16,7 @@ import java.util.*;
  * @author fsznajderman
  *         date :  03/03/12
  */
-public class ActivityOverView {
+public class ActivitiesHelper {
 
     private List<ActivityWrapper> activityWrappers;
     private static final Long ZERO = 0l;
@@ -24,13 +24,13 @@ public class ActivityOverView {
 
     public String getBestNamePost() {
         ActivityWrapper aw = Ordering.natural().onResultOf(new CompileBestPost()).greatestOf(activityWrappers, 1).get(0);
-        return Utils.getActivityAuthor(aw);
+        return HtmlUtils.getActivityAuthor(aw);
     }
 
     public String getBestTitrePost() {
         ActivityWrapper aw = Ordering.natural().onResultOf(new CompileBestPost()).greatestOf(activityWrappers, 1).get(0);
 
-        return Utils.getActivityTitle(aw);
+        return HtmlUtils.getActivityTitle(aw);
     }
 
     public String getPlusOneMatrix() {

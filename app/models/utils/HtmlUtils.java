@@ -17,7 +17,7 @@ import java.util.Properties;
  * @author fsznajderman
  *         date :  07/03/12
  */
-public class Utils {
+public class HtmlUtils {
 
 
     public static final String PATH_GOOGLE_KEY_PROPERTIES = "google.info.path";

@@ -3,7 +3,7 @@ package models;
 import com.google.api.client.util.DateTime;
 import com.google.api.services.plus.model.Activity;
 import com.google.api.services.plus.model.ActivityObject;
-import models.utils.Utils;
+import models.utils.HtmlUtils;
 
 /**
  * Provides a simplify view of Activity
@@ -45,12 +45,12 @@ public class ActivityWrapper {
 	}
 
     public String getAuthor(){
-        return Utils.getActivityAuthor(this);
+        return HtmlUtils.getActivityAuthor(this);
     }
 
 
     public String getTitle(){
-        return Utils.getActivityTitle(this);
+        return HtmlUtils.getActivityTitle(this);
     }
 
     public DateTime getPublicationDate() {
