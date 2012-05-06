@@ -52,6 +52,7 @@ public class ActivitiesHelper {
         return Joiner.on(",").join(matrix.values());
     }
 
+
     public Collection<String> getTitleMatrix() {
         Map<Date, String> matrix = Maps.newTreeMap();
         for (ActivityWrapper aw : activityWrappers) {
@@ -125,11 +126,7 @@ public class ActivitiesHelper {
     }
 
 
-    public List<ActivityWrapper> getActivityWrappers() {
 
-
-        return activityWrappers;
-    }
 
     public void setActivityWrappers(List<ActivityWrapper> activityWrappers) {
 

@@ -63,4 +63,8 @@ public class ActivityWrapper {
 
     }
 
+    public String getGoogleId(){
+        return activity.getId();
+    }
+
 }

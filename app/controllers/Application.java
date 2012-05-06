@@ -10,6 +10,9 @@ import com.google.api.services.plus.model.ActivityFeed;
 import com.google.common.collect.Lists;
 import models.ActivitiesHelper;
 import models.ActivityWrapper;
+import models.ViewInformations;
+import models.domain.Article;
+import models.domain.Statistiques;
 import models.utils.HtmlUtils;
 import play.mvc.Controller;
 
@@ -44,19 +47,32 @@ public class Application extends Controller {
         try {
             // Execute and process the next page request
             feed = listActivities.execute();
-           for (final Activity activity : feed.getItems()) {
+
+            for (final Activity activity : feed.getItems()) {
 
                 final ActivityWrapper activityWrapper = new ActivityWrapper(activity);
 
-               activityWrappers.add(activityWrapper);
+                activityWrappers.add(activityWrapper);
             }
-       } catch (final IOException e) {
+        } catch (final IOException e) {
             e.printStackTrace();
         }
         ActivitiesHelper aov = new ActivitiesHelper();
         aov.setActivityWrappers(activityWrappers);
 
         render(aov);
+    }
+
+    public static void index2() {
+
+
+        final List<Article> articles = Article.findAll();
+        final List<Statistiques> statistiques = Statistiques.findAll();
+
+        final ViewInformations viewInformations = new ViewInformations(articles, statistiques.get(statistiques.size()-1));
+
+
+        render(viewInformations);
     }
 
 

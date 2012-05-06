@@ -1,0 +1,139 @@
+#{extends 'main.html' /}
+
+<!--<span style="font-size: 300px;" > </span>-->
+<script>
+    $(function() {
+        $("#accordion").accordion();
+        $('div p').each(function() {
+            var htmlstr = $(this).text();
+
+            $(this).replaceWith(htmlstr);
+
+        });
+        $('h3 a').each(function() {
+            var htmlstr = $(this).text();
+
+            $(this).replaceWith(htmlstr);
+
+        });
+
+        $(function() {
+            $("#tabs").tabs();
+        })
+
+
+        var datas = new Array();
+        $('#matrix .articleTitle').each(function(i) {
+
+           datas[i] =  $(this).html();
+
+        });
+
+
+        $(function () {
+            var barPlusOne = new RGraph.Bar('plusOne', [${viewInformations.plusOneMatrix}]);
+            barPlusOne.Set('chart.gutter.left', 32);
+            barPlusOne.Set('chart.gutter.bottom', 200);
+
+            barPlusOne.Set('chart.colors', ['red']);
+            barPlusOne.Set('chart.title', 'Number of plus one by article');
+            barPlusOne.Set('chart.labels', datas);
+            barPlusOne.Set('chart.text.angle', 90);
+            barPlusOne.Draw();
+
+            var barShared = new RGraph.Bar('shared', [${viewInformations.sharedMatrix}]);
+            barShared.Set('chart.gutter.left', 32);
+            barShared.Set('chart.gutter.bottom', 200);
+
+            barShared.Set('chart.colors', ['red']);
+            barShared.Set('chart.title', 'Number of share by article');
+            barShared.Set('chart.labels', datas);
+            barShared.Set('chart.text.angle', 90);
+            barShared.Draw();
+        });
+
+
+    });
+</script>
+
+<div style="display: none;" id="matrix">
+
+
+    #{list items:viewInformations.articles, as:'task'}
+        <div class="articleTitle"><p>${task.title}</p></div>
+    #{/list}
+
+
+</div>
+
+
+
+<div id="tabs">
+    <ul>
+        <li><a href="#tabs-1">Stats</a></li>
+        <li><a href="#tabs-2">Articles</a></li>
+        <li><a href="#tabs-3">Graphs</a></li>
+        <!--<li><a href="#tabs-4">test</a></li>-->
+
+    </ul>
+    <div id="tabs-1">
+        <p>
+
+        <div class="container">
+
+            <div class="container sub-container right bottom"><span class="text"> ${viewInformations.articles.size} </span>
+                posts
+            </div>
+            <div class="container sub-container bottom"><span class="text">${viewInformations.compileSumPlusOnePage} </span>+1</div>
+            <div class="container sub-container right"><span class="text">${viewInformations.compileSumShared} </span>shared</div>
+            <div class="container sub-container "><span class="text bestArticle"><p>${viewInformations.bestTitrePost}</p></span> <span
+                    class="text redactorbestArticle"> by ${viewInformations.bestNamePost}</span></div>
+        </div>
+        </p>
+    </div>
+    <div id="tabs-2">
+        <p>
+
+        <div class="articles">
+
+            <div id="accordion">
+                #{list items:viewInformations.articles, as:'task'}
+                <h3><a href="#">${task.title} by ${task.author} &nbsp;&nbsp;&nbsp;&nbsp; +1 :${task.plusOne} &nbsp;&nbsp;&nbsp;&nbsp;
+                    Shared :${task.shared} </a></h3>
+
+                <div>
+                    <p>
+                        ${task.content}
+                    </p>
+                </div>
+                #{/list}
+
+
+            </div>
+
+
+        </div>
+        </p>
+    </div>
+    <div id="tabs-3">
+
+          <canvas id="plusOne" width="1000" height="500">[No canvas support]</canvas>
+
+        <br>
+        <br>
+        <canvas id="shared" width="1000" height="500">[No canvas support]</canvas>
+    </div>
+    <!--<div id="tabs-4">-->
+
+    <!--</div>-->
+
+</div>
+
+
+
+
+
+
+
+
+
