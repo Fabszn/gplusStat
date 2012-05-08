@@ -30,7 +30,7 @@ import java.util.Set;
  * @author fsznajderman
  *         date :  01/05/12
  */
-@On("0/30 * * * * ?")
+@On("* 0/30 * * * ?")
 public class RefreshDatasFromGPlusJobs extends Job {
 
     final static JsonFactory jsonFactory = new JacksonFactory();
