@@ -66,8 +66,9 @@ public class Application extends Controller {
     public static void index2() {
 
 
-        final List<Article> articles = Article.findAll();
-        final List<Statistiques> statistiques = Statistiques.findAll();
+        final List<Article> articles = Article.q().filter("current",true).asList();
+
+        final List<Statistiques> statistiques = Statistiques.q().filter("current",true).asList();
 
         final ViewInformations viewInformations = new ViewInformations(articles, statistiques.get(statistiques.size()-1));
 

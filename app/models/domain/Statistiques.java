@@ -23,6 +23,7 @@ public class Statistiques extends Model{
     private Long sumPlusOne;
     private Long sumShared;
     private Date statisticDate;
+    private boolean current = false;
 
 
     public String getBestNamePost() {
@@ -95,6 +96,14 @@ public class Statistiques extends Model{
 
     public void setBestGoogleID(String bestGoogleID) {
         this.bestGoogleID = bestGoogleID;
+    }
+
+    public boolean isCurrent() {
+        return current;
+    }
+
+    public void setCurrent(boolean current) {
+        this.current = current;
     }
 
     @Override

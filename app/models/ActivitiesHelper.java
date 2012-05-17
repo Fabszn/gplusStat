@@ -3,8 +3,10 @@ package models;
 
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Ordering;
+import com.google.common.base.Preconditions;
+import com.google.common.base.Predicate;
+import com.google.common.collect.*;
+import models.domain.Article;
 import models.utils.HtmlUtils;
 
 import javax.annotation.Nullable;
@@ -126,12 +128,44 @@ public class ActivitiesHelper {
     }
 
 
-
-
     public void setActivityWrappers(List<ActivityWrapper> activityWrappers) {
-
-
-
         this.activityWrappers = activityWrappers;
     }
+
+    public List<Article> articlesFilter(List<Article> articles) {
+
+        final Set<String> googleIds = Sets.newHashSet();
+        final List<Article> finalArticles = Lists.newArrayList();
+
+        for (Article a : articles) {
+            googleIds.add(a.getGoogleId());
+
+            Collection<Article> temp = Collections2.filter(articles, new GoogleIdPredicate(a.getGoogleId()));
+
+
+
+        }
+
+        return null;
+
+
+    }
+}
+
+class GoogleIdPredicate implements Predicate<Article> {
+
+    private String googleIdRef = null;
+
+    public GoogleIdPredicate(String googleIdRef) {
+        Preconditions.checkNotNull(googleIdRef, "Ref can not be null!!");
+        this.googleIdRef = googleIdRef;
+    }
+
+    public boolean apply(@Nullable Article article) {
+
+        Preconditions.checkNotNull(article, "article can not be null here!!");
+
+        return article.getGoogleId().equalsIgnoreCase(googleIdRef);
+    }
+
 }
