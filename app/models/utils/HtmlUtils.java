@@ -36,6 +36,8 @@ public class HtmlUtils {
 
         Document doc = Jsoup.parse(activityWrapper.getContent());
 
+
+
         Elements elem = doc.getElementsByTag(baliseName);
 
         if (elem != null && elem.size() != 0) {
