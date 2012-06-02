@@ -75,7 +75,6 @@ public class RefreshDatasFromGPlusJobs extends Job {
 
 
                 }
-                  System.out.println("break " +feed.getNextPageToken());
                 if (feed.getNextPageToken() == null) {
                     System.out.println("break ");
                     break;
