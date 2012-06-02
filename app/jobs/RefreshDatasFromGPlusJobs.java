@@ -31,7 +31,7 @@ import java.util.*;
  * @author fsznajderman
  *         date :  01/05/12
  */
-@On("* 0/30 * * * ?")
+@On(" 0/30 * * * * ?")
 public class RefreshDatasFromGPlusJobs extends Job {
 
     final static JsonFactory jsonFactory = new JacksonFactory();
@@ -53,25 +53,39 @@ public class RefreshDatasFromGPlusJobs extends Job {
 
         listActivities.setMaxResults(100L);
         // Pro tip: Use partial responses to improve response time considerably
-        listActivities.setFields("items(id,url,published,object(content,plusoners,resharers))");
+        listActivities.setFields("nextPageToken,items(id,url,published,object(content,plusoners,resharers))");
 
         Set<Article> fromGPlus = new HashSet<Article>();
-
         final List<ActivityWrapper> activityWrappers = Lists.newArrayList();
         try {
-            // Execute and process the next page request
-            final ActivityFeed feed = listActivities.execute();
 
-            for (final Activity activity : feed.getItems()) {
+            ActivityFeed feed = listActivities.execute();
+            List<Activity> activities = feed.getItems();
+            while (activities != null) {
+                System.out.println("turn " + activities.size());
+                // Execute and process the next page request
+                for (final Activity activity : activities) {
 
-                final ActivityWrapper wrapper = new ActivityWrapper(activity);
+                    final ActivityWrapper wrapper = new ActivityWrapper(activity);
 
-                activityWrappers.add(wrapper);
-                Article a = new Article(wrapper.getAuthor(), wrapper.getContent(), wrapper.getGoogleId(), wrapper.getNbPlusOners(), wrapper.getPublicationDate().getValue(), wrapper.getNbReshared(), wrapper.getTitle(), new Date().getTime());
+                    activityWrappers.add(wrapper);
+                    Article a = new Article(wrapper.getAuthor(), wrapper.getContent(), wrapper.getGoogleId(), wrapper.getNbPlusOners(), wrapper.getPublicationDate().getValue(), wrapper.getNbReshared(), wrapper.getTitle(), new Date().getTime());
 
-                fromGPlus.add(a);
+                    fromGPlus.add(a);
 
 
+                }
+                  System.out.println("break " +feed.getNextPageToken());
+                if (feed.getNextPageToken() == null) {
+                    System.out.println("break ");
+                    break;
+                }
+
+                listActivities.setPageToken(feed.getNextPageToken());
+
+                // Execute and process the next page request
+                feed = listActivities.execute();
+                activities = feed.getItems();
             }
         } catch (final IOException e) {
             e.printStackTrace();
