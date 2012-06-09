@@ -6,6 +6,8 @@
 GET     /oldVersion                              Application.index
 # Home page
 GET     /                                        Application.index2
+# free datas
+GET     /statgplus                               FreeDatas.freeStatGplus
 
 # Ignore favicon requests
 GET     /favicon.ico                            404
