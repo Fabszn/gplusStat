@@ -135,6 +135,7 @@ public class RefreshDatasFromGPlusJobs extends Job {
         s.setSharedMatrix(ah.getSharedMatrix());
         s.setSumPlusOne(ah.getCompileSumPlusOnePage());
         s.setSumShared(ah.getCompileSumShared());
+
         final List<Statistiques> stats = Statistiques.findAll();
         CollectionUtils.forAllDo(stats, new Closure() {
             public void execute(Object o) {
