@@ -1,15 +1,20 @@
 package models.utils;
 
-import com.google.common.base.Preconditions;
+import com.google.common.base.Splitter;
+import com.google.common.collect.Lists;
 import models.ActivityWrapper;
+import org.apache.commons.lang.StringUtils;
 import org.jsoup.Jsoup;
+import org.jsoup.helper.StringUtil;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-import play.Play;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.util.Properties;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 /**
  * .
@@ -20,49 +25,50 @@ import java.util.Properties;
 public class HtmlUtils {
 
 
-    public static final String PATH_GOOGLE_KEY_PROPERTIES = "google.info.path";
-
     public static String getActivityTitle(ActivityWrapper activityWrapper) {
-        return extractContent("b", activityWrapper);
+        return extractHtmlContent("b", activityWrapper);
 
     }
 
     public static String getActivityAuthor(ActivityWrapper activityWrapper) {
-        return extractContent("a", activityWrapper);
+        return extractHtmlContent("a", activityWrapper);
     }
 
-    private static String extractContent(String baliseName, ActivityWrapper activityWrapper) {
+    private static String extractHtmlContent(String baliseName, ActivityWrapper activityWrapper) {
         String content = "Unkown";
 
         Document doc = Jsoup.parse(activityWrapper.getContent());
 
-
-
         Elements elem = doc.getElementsByTag(baliseName);
 
         if (elem != null && elem.size() != 0) {
-            content = elem.get(0).html();
+            content = elem.get(0).text();
         }
 
         return content;
 
     }
 
+    public static List<String> getTagsFromContent(String content) {
 
-    public static String getValueFromGplusConf(final String key) {
-        String path = Play.configuration.getProperty(PATH_GOOGLE_KEY_PROPERTIES);
+        final List<String> tags = Lists.newArrayList();
+        final String regex = "#[A-Za-z]+( |)";
+        final Pattern p = Pattern.compile(regex);
 
-        Preconditions.checkNotNull(path);
-        final Properties p = new Properties();
-        try {
-            p.load(new FileInputStream(new File(path)));
-        } catch (Exception e) {
-            e.printStackTrace();
+        Matcher m = p.matcher(content);
+
+        while (m.find()) {
+
+            tags.add(StringUtils.removeStart(m.group(),"#"));
+
         }
 
-        return p.getProperty(key);
+        return tags;
+
 
     }
+
+
 }
 
 

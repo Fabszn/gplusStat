@@ -6,6 +6,10 @@
 GET     /oldVersion                              Application.index
 # Home page
 GET     /                                        Application.index2
+# test
+GET     /test                                       Application.test
+
+GET /articlesByTag/{lblTag}                        Application.listArticlesFromLblTag
 
 # Ignore favicon requests
 GET     /favicon.ico                            404
