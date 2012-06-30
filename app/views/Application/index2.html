@@ -1,133 +1,182 @@
 #{extends 'main.html' /}
 
+
 <!--<span style="font-size: 300px;" > </span>-->
 <script>
+
+
+
+
+
     $(function() {
-        $("#accordion").accordion();
-        $('div p').each(function() {
-            var htmlstr = $(this).text();
-
-            $(this).replaceWith(htmlstr);
-
-        });
-        $('h3 a').each(function() {
-            var htmlstr = $(this).text();
-
-            $(this).replaceWith(htmlstr);
-
-        });
-
-        $(function() {
-            $("#tabs").tabs();
-        })
+        $('#popinContent').dialog({autoOpen: false,height: 495, show: "blind",hide: "blind", width: 977,modal:true,title:"Article(s) en relation avec ce tag" });
+        $("#myTab a:first").click();
 
 
-        var datas = new Array();
-        $('#matrix .articleTitle').each(function(i) {
 
-           datas[i] =  $(this).html();
+        try {
+            TagCanvas.Start('myCanvas', 'tags', {
+                outlineColour: '#333333',
+                reverse: false,
+                depth: 0.1,
+                maxSpeed: 0.02,
+                weight: true,
+                textFont: null,
+                textColour: null
 
-        });
 
-
-        $(function () {
-            var barPlusOne = new RGraph.Bar('plusOne', [${viewInformations.plusOneMatrix}]);
-            barPlusOne.Set('chart.gutter.left', 32);
-            barPlusOne.Set('chart.gutter.bottom', 200);
-
-            barPlusOne.Set('chart.colors', ['red']);
-            barPlusOne.Set('chart.title', 'Number of plus one by article');
-            barPlusOne.Set('chart.labels', datas);
-            barPlusOne.Set('chart.text.angle', 90);
-            barPlusOne.Draw();
-
-            var barShared = new RGraph.Bar('shared', [${viewInformations.sharedMatrix}]);
-            barShared.Set('chart.gutter.left', 32);
-            barShared.Set('chart.gutter.bottom', 200);
-
-            barShared.Set('chart.colors', ['red']);
-            barShared.Set('chart.title', 'Number of share by article');
-            barShared.Set('chart.labels', datas);
-            barShared.Set('chart.text.angle', 90);
-            barShared.Draw();
-        });
+            });
+        } catch(e) {
+            // something went wrong, hide the canvas container
+            document.getElementById('myCanvasContainer').style.display = 'none';
+        }
 
 
     });
+
 </script>
 
-<div style="display: none;" id="matrix">
 
+<div class="container">
+    <div class="page-header  Kaffeesatz">
+        <h1>Gplus Statistiques</h1>
 
-    #{list items:viewInformations.articles, as:'task'}
-        <div class="articleTitle"><p>${task.title}</p></div>
-    #{/list}
+        <div class="lineH"></div>
+    </div>
 
 
 </div>
-
-
-
-<div id="tabs">
-    <ul>
-        <li><a href="#tabs-1">Stats</a></li>
-        <li><a href="#tabs-2">Articles</a></li>
-        <li><a href="#tabs-3">Graphs</a></li>
-        <!--<li><a href="#tabs-4">test</a></li>-->
-
+<div class="tabbable tabs-left">
+    <ul class="nav nav-tabs Kaffeesatz" id="myTab">
+        <li><a href="#tab0" ><h2>Home</h2></a></li>
+        <li><a href="#tab1"><h2>D&eacute;tails</h2></a></li>
+        <li><a href="#tab2"><h2>Articles</h2></a></li>
     </ul>
-    <div id="tabs-1">
-        <p>
 
-        <div class="container">
+    <div class="tab-content Kaffeesatz">
 
-            <div class="container sub-container right bottom"><span class="text"> ${viewInformations.articles.size} </span>
-                posts
-            </div>
-            <div class="container sub-container bottom"><span class="text">${viewInformations.compileSumPlusOnePage} </span>+1</div>
-            <div class="container sub-container right"><span class="text">${viewInformations.compileSumShared} </span>shared</div>
-            <div class="container sub-container "><span class="text bestArticle"><p>${viewInformations.bestTitrePost}</p></span> <span
-                    class="text redactorbestArticle"> by ${viewInformations.bestNamePost}</span></div>
-        </div>
-        </p>
-    </div>
-    <div id="tabs-2">
-        <p>
-
-        <div class="articles">
-
-            <div id="accordion">
-                #{list items:viewInformations.articles, as:'task'}
-                <h3><a href="#">${task.title} by ${task.author} &nbsp;&nbsp;&nbsp;&nbsp; +1 :${task.plusOne} &nbsp;&nbsp;&nbsp;&nbsp;
-                    Shared :${task.shared} </a></h3>
-
-                <div>
-                    <p>
-                        ${task.content}
-                    </p>
+            <div class="container tab-pane" id="tab0">
+                <div class="row span12">
+                    <div align="center" id="myCanvasContainer span6">
+                        <canvas width="300" height="300" id="myCanvas">
+                            <p> Anything in here will be replaced on browsers that support the canvas element </p>
+                        </canvas>
+                    </div>
                 </div>
-                #{/list}
+                <div class="row span12">
+                    <div class="well">
+                        Cette page a pour objectif de pr&eacute;senter, de mani&egrave;re synth&eacute;tique, les informations li&eacute;es &agrave; la page <a href="http://gplus.to/javafr" target="_blank"> google plus java FR (http://gplus.to/javafr)</a> </br>
+                        Vous trouverez sur cette page la liste de tous les articles publi&eacute;s sur google+. Aussi, &agrave; l'aide du nuage de tags ci-dessus, la possibilit&eacute; d'acc&eacute;der aux articles par th&egrave;me.
+                    </div>
+                </div>
+            </div>
 
+
+
+            <div class="container tab-pane" id="tab1">
+                <div class="row">
+                    <div class="span6 r"><h1>Articles</h1></div>
+                </div>
+                <div class="row  show-grid">
+                    <div class="span6 dice"><h1>${viewInformations.articles.size}</h1></div>
+                </div>
+                <div class="row">
+                    <div class="span6 right"><h1>+1</h1></div>
+                </div>
+                <div class="row show-grid">
+                    <div class="span6 dice"><h1>${viewInformations.compileSumPlusOnePage} </h1></div>
+                </div>
+                <div class="row">
+                    <div class="span6 right"><h1>Partage</h1></div>
+                </div>
+                <div class="row show-grid">
+                    <div class="span6 dice"><h1>${viewInformations.compileSumShared} </h1></div>
+
+                </div>
+                <div class="row">
+                    <div class="span6 right"><h1>Meilleur article</h1></div>
+                </div>
+
+                <div class="row">
+
+                    <div class="span12 dice"><h2> <span class=" text redactorbestArticle">
+                        ${viewInformations.bestTitrePost}  </span></h2> by <h3>
+                        <span class=" text redactorbestArticle">${viewInformations.bestNamePost}</span></h3>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="container tabArticles tab-pane" id="tab2">
+
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th><H2>Article</H2></th>
+                        <th><H2>Auteur</H2></th>
+                        <th><H2>+1</H2></th>
+                        <th><H2>Partage</H2></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    #{list items:viewInformations.articles, as:'task'}
+                    <tr>
+                        <td style=" vertical-align: middle;"><a href="${task.url}" target="_blank"><h4>${task.title}</h4></a></td>
+                        <td style="text-align: center; vertical-align: middle;"><h4>${task.author}</h4></td>
+                        <td style="text-align: center; vertical-align: middle;"><H2>${task.plusOne}</H2></td>
+                        <td style="text-align: center; vertical-align: middle;"><H2>${task.shared}</H2></td>
+                    </tr>
+                    #{/list}
+                    </tbody>
+                </table>
 
             </div>
 
 
-        </div>
-        </p>
+
     </div>
-    <div id="tabs-3">
+    <div id="tags">
+                    <ul>
+                        #{list items:viewInformations.tags, as:'task'}
+                        <li><a href="#" class="${task.cssClass} popin" id="${task.lblTag}"> ${task.lblTag} </a></li>
+                        #{/list}
 
-          <canvas id="plusOne" width="1000" height="500">[No canvas support]</canvas>
 
-        <br>
-        <br>
-        <canvas id="shared" width="1000" height="500">[No canvas support]</canvas>
-    </div>
-    <!--<div id="tabs-4">-->
+                    </ul>
+                </div>
 
-    <!--</div>-->
+    <script>
 
+        $('#myTab a').click(function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+        })
+
+        $('.popin').click(function(e) {
+
+            var url = "/articlesByTag/" + $(this).attr('id');
+
+            $('#popinContent').load(url, function() {
+
+
+                $('#popinContent').dialog('open');
+
+            });
+
+
+        });
+
+    </script>
 </div>
+
+
+
+
+
+<div style="display: none;" id="popinContent"></div>
+
+
+
 
 
 

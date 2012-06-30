@@ -3,7 +3,14 @@ package models;
 import com.google.api.client.util.DateTime;
 import com.google.api.services.plus.model.Activity;
 import com.google.api.services.plus.model.ActivityObject;
+import com.google.common.base.Function;
+import com.google.common.collect.Collections2;
+import models.domain.Tag;
 import models.utils.HtmlUtils;
+
+import javax.annotation.Nullable;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Provides a simplify view of Activity
@@ -65,6 +72,18 @@ public class ActivityWrapper {
 
     public String getGoogleId(){
         return activity.getId();
+    }
+
+    public Collection<Tag> getTags(){
+        return Collections2.transform(HtmlUtils.getTagsFromContent(plusObject.getContent()), new Function<String,Tag>(){
+            public Tag apply(@Nullable String s) {
+                return new Tag(s.trim());
+            }
+        });
+    }
+
+    public String getUrl(){
+        return activity.getUrl();
     }
 
 }

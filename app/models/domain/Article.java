@@ -23,12 +23,13 @@ public class Article extends Model {
     private long plusOne;
     private long shared;
     private boolean current = false;
+    private String url;
 
 
 
 
 
-    public Article(String author, String content, String googleId, long plusone, long publicationDate, long shared, String title, final long insertionDate) {
+    public Article(String author, String content, String googleId, long plusone, long publicationDate, long shared, String title, final long insertionDate, final String url) {
         this.author = author;
         this.content = content;
         this.googleId = googleId;
@@ -37,6 +38,7 @@ public class Article extends Model {
         this.shared = shared;
         this.title = title;
         this.insertionDate = insertionDate;
+        this.url = url;
     }
 
 
@@ -79,6 +81,10 @@ public class Article extends Model {
     public void setCurrent(boolean current) {
 
         this.current = current;
+    }
+
+    public String getUrl() {
+        return url;
     }
 
     @Override

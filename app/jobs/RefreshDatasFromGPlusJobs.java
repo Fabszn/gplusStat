@@ -14,6 +14,8 @@ import models.ActivitiesHelper;
 import models.ActivityWrapper;
 import models.domain.Article;
 import models.domain.Statistiques;
+import models.domain.Tag;
+import models.utils.ConfUtil;
 import models.utils.HtmlUtils;
 import org.apache.commons.collections.Closure;
 import org.apache.commons.collections.CollectionUtils;
@@ -31,7 +33,7 @@ import java.util.*;
  * @author fsznajderman
  *         date :  01/05/12
  */
-@On(" 0/30 * * * * ?")
+@On("  * 0/30 * * * ?")
 public class RefreshDatasFromGPlusJobs extends Job {
 
     final static JsonFactory jsonFactory = new JacksonFactory();
@@ -44,22 +46,23 @@ public class RefreshDatasFromGPlusJobs extends Job {
         final Plus plus = new Plus(httpTransport, jsonFactory);
         // When we do not specify access tokens, we must specify our API key
         // instead
-        String key = HtmlUtils.getValueFromGplusConf("google.key");
+        String key = ConfUtil.getValueFromGplusConf("google.key");
 
         plus.setKey(key);
-        final Plus.Activities.List listActivities = plus.activities.list(HtmlUtils.getValueFromGplusConf("google.id.page"), "public");
+        final Plus.Activities.List activitiesFromGplus = plus.activities.list(ConfUtil.getValueFromGplusConf("google.id.page"), "public");
 
         // Fetch the first page of activities
 
-        listActivities.setMaxResults(100L);
+        activitiesFromGplus.setMaxResults(100L);
         // Pro tip: Use partial responses to improve response time considerably
-        listActivities.setFields("nextPageToken,items(id,url,published,object(content,plusoners,resharers))");
+        activitiesFromGplus.setFields("nextPageToken,items(id,url,published,object(content,plusoners,resharers))");
 
-        Set<Article> fromGPlus = new HashSet<Article>();
-        final List<ActivityWrapper> activityWrappers = Lists.newArrayList();
+        final Set<Article> fromGPlus = Sets.newHashSet();
+        final Set<Tag> tagFromGplus = Sets.newHashSet();
+        final List<ActivityWrapper> localActivityWrappers = Lists.newArrayList();
         try {
 
-            ActivityFeed feed = listActivities.execute();
+            ActivityFeed feed = activitiesFromGplus.execute();
             List<Activity> activities = feed.getItems();
             while (activities != null) {
                 System.out.println("turn " + activities.size());
@@ -67,34 +70,32 @@ public class RefreshDatasFromGPlusJobs extends Job {
                 for (final Activity activity : activities) {
 
                     final ActivityWrapper wrapper = new ActivityWrapper(activity);
-
-                    activityWrappers.add(wrapper);
-                    Article a = new Article(wrapper.getAuthor(), wrapper.getContent(), wrapper.getGoogleId(), wrapper.getNbPlusOners(), wrapper.getPublicationDate().getValue(), wrapper.getNbReshared(), wrapper.getTitle(), new Date().getTime());
+                                                      // System.out.println(wrapper.getContent());
+                    localActivityWrappers.add(wrapper);
+                    Article a = new Article(wrapper.getAuthor(), wrapper.getContent(), wrapper.getGoogleId(), wrapper.getNbPlusOners(), wrapper.getPublicationDate().getValue(), wrapper.getNbReshared(), wrapper.getTitle(), new Date().getTime(),wrapper.getUrl());
 
                     fromGPlus.add(a);
-
+                    tagFromGplus.addAll(wrapper.getTags());
 
                 }
                 if (feed.getNextPageToken() == null) {
-                    System.out.println("break ");
                     break;
                 }
-
-                listActivities.setPageToken(feed.getNextPageToken());
+                activitiesFromGplus.setPageToken(feed.getNextPageToken());
 
                 // Execute and process the next page request
-                feed = listActivities.execute();
+                feed = activitiesFromGplus.execute();
                 activities = feed.getItems();
             }
         } catch (final IOException e) {
             e.printStackTrace();
         }
+        saveTags(tagFromGplus, localActivityWrappers);
 
         List<Article> fromDBList = Article.findAll();
         //reset all articles by setting their current field to Boolean.FALSE.
         CollectionUtils.forAllDo(fromDBList, new Closure() {
             public void execute(Object o) {
-
                 ((Article) o).setCurrent(Boolean.FALSE);
                 ((Article) o).save();
             }
@@ -103,7 +104,7 @@ public class RefreshDatasFromGPlusJobs extends Job {
         for (final Article a : fromGPlus) {
 
             if (!fromDBList.contains(a)) {
-                System.out.println("save " + a.getTitle());
+                //System.out.println("save " + a.getTitle());
                 a.setCurrent(Boolean.TRUE);
                 a.save();
 
@@ -119,9 +120,31 @@ public class RefreshDatasFromGPlusJobs extends Job {
                 c.save();
             }
         }
-        createStatistique(activityWrappers);
+        createStatistique(localActivityWrappers);
 
         System.out.println("End Job");
+    }
+
+    private void saveTags(Set<Tag> tagFromGplus, final List<ActivityWrapper> localActivityWrappers) {
+        final List<Tag> tags = Tag.findAll();
+        //manage link between tag and article
+        CollectionUtils.forAllDo(tagFromGplus, new Closure() {
+            public void execute(Object o) {
+                final Tag currentTag = (Tag) o;
+                CollectionUtils.forAllDo(localActivityWrappers, new Closure() {
+                    public void execute(Object o) {
+                        ActivityWrapper activityWrapper = (ActivityWrapper) o;
+                        if (activityWrapper.getTags().contains(currentTag)) {
+                            currentTag.getArticleIds().add(activityWrapper.getGoogleId());
+                        }
+                    }
+                });
+                if (!tags.contains(currentTag)) {
+                    //System.out.println("save " + currentTag);
+                    currentTag.save();
+                }
+            }
+        });
     }
 
     private void createStatistique(final List<ActivityWrapper> activityWrappers) {
@@ -146,7 +169,7 @@ public class RefreshDatasFromGPlusJobs extends Job {
         });
 
         if (!stats.contains(s)) {
-            System.out.println(s.toString());
+
             s.setCurrent(Boolean.TRUE);
             s.save();
         } else {

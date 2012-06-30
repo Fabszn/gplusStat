@@ -5,6 +5,8 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.Collections2;
 import models.domain.Article;
 import models.domain.Statistiques;
+import models.domain.Tag;
+import models.utils.TagCss;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -20,8 +22,9 @@ public class ViewInformations {
 
     private List<Article> articles;
     private Statistiques statistiques;
+    private Collection<Tag> tags;
 
-    public ViewInformations(List<Article> articles, Statistiques statistiques) {
+    public ViewInformations(final List<Article> articles,final  Statistiques statistiques,final Collection<Tag> tags) {
         Collections.sort(articles, new Comparator<Article>() {
             public int compare(Article o1, Article o2) {
                 final Date d1 = new Date(o1.getPublicationDate());
@@ -33,6 +36,7 @@ public class ViewInformations {
 
         this.articles = articles;
         this.statistiques = statistiques;
+        this.tags=tags;
     }
 
     public String getBestNamePost() {
@@ -70,6 +74,15 @@ public class ViewInformations {
         });
 
         return Joiner.on(",").join(titleMatrix);
+    }
+
+    public String getTagCss(final int nbArticle){
+
+        return TagCss.getClass(nbArticle);
+    }
+
+    public Collection<Tag> getTags(){
+        return tags;
     }
 
     public Long getCompileSumPlusOnePage() {

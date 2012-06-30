@@ -14,9 +14,9 @@ import javax.annotation.Nullable;
 public class CompileBestPost implements Function<ActivityWrapper, Long> {
 
     private static final int COEFFICIENT_PLUS_UN = 1;
-    private static final int COEFFICIENT_SHARED = 3;
+    private static final int COEFFICIENT_SHARED = 1;
 
-    private static final int COEFFICIENT_COMMENT = 2;
+    private static final int COEFFICIENT_COMMENT = 1;
 
     public Long apply(@Nullable ActivityWrapper activityWrapper) {
 
@@ -25,7 +25,7 @@ public class CompileBestPost implements Function<ActivityWrapper, Long> {
         Long nbShared = activityWrapper.getNbReshared();
 
         rank = (nbPlusUn != null ? nbPlusUn * COEFFICIENT_PLUS_UN : 0) + (nbShared != null ? nbShared * COEFFICIENT_SHARED : 0);
-
+        System.out.println(rank);
 
         return rank;
     }

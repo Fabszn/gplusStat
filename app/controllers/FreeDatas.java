@@ -1,11 +1,15 @@
 package controllers;
 
+
+import com.google.common.collect.Lists;
 import models.ViewInformations;
 import models.domain.Article;
 import models.domain.Statistiques;
+import models.domain.Tag;
 import play.mvc.Controller;
 
 import java.util.List;
+
 
 /**
  * .
@@ -13,6 +17,7 @@ import java.util.List;
  * @author fsznajderman
  *         date :  09/06/12
  */
+
 public class FreeDatas extends Controller {
 
 
@@ -22,7 +27,7 @@ public class FreeDatas extends Controller {
 
         final List<Statistiques> statistiques = Statistiques.q().filter("current", true).asList();
 
-        final ViewInformations viewInformations = new ViewInformations(articles, statistiques.get(statistiques.size() - 1));
+        final ViewInformations viewInformations = new ViewInformations(articles, statistiques.get(statistiques.size() - 1), Lists.<Tag>newArrayList());
 
 
         Statistiques stats = statistiques.get(statistiques.size() - 1);
@@ -30,4 +35,5 @@ public class FreeDatas extends Controller {
 
         renderJSON(stats);
     }
+
 }

@@ -1,0 +1,31 @@
+<html>
+<head>
+    <link rel="stylesheet/less" type="text/css" href="@{'/public/stylesheets/bootstrap.less'}"/>
+</head>
+<body>
+<div class="container">
+    <div class="page-header  Kaffeesatz">
+        <h3>Tag s&eacute;lectionn&eacute; : </h3> <h1>${lblTag}</h1>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="span12 center">
+            <ul>
+                #{list items:l, as:'id'}
+                <li><span class="Kaffeesatz"><h2>${id.title}</h2> <a href="${id.url}" target="_blank">voir l'article</a> </span></li>
+                #{/list}
+
+            </ul>
+        </div>
+    </div>
+</div>
+<!--<div class="toggler">
+    <div id="effect" class="ui-widget-content ui-corner-all">
+        <h3 class="ui-widget-header ui-corner-all">Article</h3>
+
+    </div>
+
+</div>-->
+</body>
+</html>

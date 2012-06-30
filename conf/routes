@@ -6,8 +6,15 @@
 GET     /oldVersion                              Application.index
 # Home page
 GET     /                                        Application.index2
+
 # free datas
 GET     /statgplus                               FreeDatas.freeStatGplus
+
+# test
+GET     /test                                       Application.test
+
+GET /articlesByTag/{lblTag}                        Application.listArticlesFromLblTag
+
 
 # Ignore favicon requests
 GET     /favicon.ico                            404
