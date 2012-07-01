@@ -25,7 +25,7 @@ public class CompileBestPost implements Function<ActivityWrapper, Long> {
         Long nbShared = activityWrapper.getNbReshared();
 
         rank = (nbPlusUn != null ? nbPlusUn * COEFFICIENT_PLUS_UN : 0) + (nbShared != null ? nbShared * COEFFICIENT_SHARED : 0);
-        System.out.println(rank);
+
 
         return rank;
     }

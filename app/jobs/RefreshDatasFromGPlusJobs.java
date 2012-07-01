@@ -33,7 +33,7 @@ import java.util.*;
  * @author fsznajderman
  *         date :  01/05/12
  */
-@On("  * 0/30 * * * ?")
+@On(" * 0/30 * * * ?")
 public class RefreshDatasFromGPlusJobs extends Job {
 
     final static JsonFactory jsonFactory = new JacksonFactory();
@@ -70,11 +70,9 @@ public class RefreshDatasFromGPlusJobs extends Job {
                 for (final Activity activity : activities) {
 
                     final ActivityWrapper wrapper = new ActivityWrapper(activity);
-                                                      // System.out.println(wrapper.getContent());
                     localActivityWrappers.add(wrapper);
-                    Article a = new Article(wrapper.getAuthor(), wrapper.getContent(), wrapper.getGoogleId(), wrapper.getNbPlusOners(), wrapper.getPublicationDate().getValue(), wrapper.getNbReshared(), wrapper.getTitle(), new Date().getTime(),wrapper.getUrl());
 
-                    fromGPlus.add(a);
+                    fromGPlus.add(wrapper.getArticle());
                     tagFromGplus.addAll(wrapper.getTags());
 
                 }

@@ -30,7 +30,7 @@ public class Application extends Controller {
     final static JsonFactory jsonFactory = new JacksonFactory();
     final static HttpTransport httpTransport = new NetHttpTransport();
 
-
+    @Deprecated
     public static void index() {
 
 

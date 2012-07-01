@@ -15,6 +15,7 @@ GET     /test                                       Application.test
 
 GET /articlesByTag/{lblTag}                        Application.listArticlesFromLblTag
 
+GET /majDB                                          MajDB.update
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

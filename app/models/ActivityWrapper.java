@@ -5,11 +5,13 @@ import com.google.api.services.plus.model.Activity;
 import com.google.api.services.plus.model.ActivityObject;
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
+import models.domain.Article;
 import models.domain.Tag;
 import models.utils.HtmlUtils;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -84,6 +86,10 @@ public class ActivityWrapper {
 
     public String getUrl(){
         return activity.getUrl();
+    }
+
+    public Article getArticle(){
+        return new Article(this.getAuthor(), this.getContent(), this.getGoogleId(), this.getNbPlusOners(), this.getPublicationDate().getValue(), this.getNbReshared(), this.getTitle(), new Date().getTime(),this.getUrl());
     }
 
 }
