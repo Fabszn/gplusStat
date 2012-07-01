@@ -88,9 +88,8 @@ public class MajDB extends Controller{
 
                 final Article a = (Article)Article.q().filter("googleId",googleId)._get();
 
-                //a.setContent(w.getContent());
-                a.setUrl(w.getUrl());
-                a.setTitle(w.getTitle());
+
+
                 System.out.println(a + " " + a.getUrl() );
 
                 a.o().set("title",w.getTitle()).update("googleId",googleId);
