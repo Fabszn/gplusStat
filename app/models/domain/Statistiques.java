@@ -1,8 +1,12 @@
 package models.domain;
 
 import com.google.code.morphia.annotations.Entity;
+import com.google.common.base.Function;
+import com.google.common.collect.ComparisonChain;
 import play.modules.morphia.Model;
 
+
+import javax.annotation.Nullable;
 import java.util.Date;
 
 /**
@@ -12,7 +16,7 @@ import java.util.Date;
  *         date :  05/05/12
  */
 @Entity
-public class Statistiques extends Model{
+public class Statistiques extends Model {
 
     private String bestNamePost;
     private String bestTitlePost;
@@ -124,13 +128,24 @@ public class Statistiques extends Model{
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o){ return true;}
+        if (o == null || getClass() != o.getClass()){ return false; }
 
 
         Statistiques that = (Statistiques) o;
 
-        if (bestGoogleID != null ? !bestGoogleID.equals(that.bestGoogleID) : that.bestGoogleID != null) return false;
+
+        return ComparisonChain.start().compare(this.getBestGoogleID(), that.getBestGoogleID())
+                .compare(bestNamePost, that.bestNamePost)
+                .compare(bestTitlePost, that.bestTitlePost)
+                .compare(plusOneMatrix, that.plusOneMatrix)
+                .compare(sharedMatrix, that.sharedMatrix)
+                .compare(sumPlusOne, that.sumPlusOne)
+                .compare(this.sumShared, that.sumShared)
+                .compare(this.titleMatrix, that.titleMatrix).result() == 0;
+
+
+        /*if (bestGoogleID != null ? !bestGoogleID.equals(that.bestGoogleID) : that.bestGoogleID != null) return false;
         if (bestNamePost != null ? !bestNamePost.equals(that.bestNamePost) : that.bestNamePost != null) return false;
         if (bestTitlePost != null ? !bestTitlePost.equals(that.bestTitlePost) : that.bestTitlePost != null)
             return false;
@@ -139,9 +154,9 @@ public class Statistiques extends Model{
         if (sharedMatrix != null ? !sharedMatrix.equals(that.sharedMatrix) : that.sharedMatrix != null) return false;
         if (sumPlusOne != null ? !sumPlusOne.equals(that.sumPlusOne) : that.sumPlusOne != null) return false;
         if (sumShared != null ? !sumShared.equals(that.sumShared) : that.sumShared != null) return false;
-        if (titleMatrix != null ? !titleMatrix.equals(that.titleMatrix) : that.titleMatrix != null) return false;
+        if (titleMatrix != null ? !titleMatrix.equals(that.titleMatrix) : that.titleMatrix != null) return false;  */
 
-        return true;
+        /*return true;    */
     }
 
     @Override

@@ -1,15 +1,10 @@
 package models.domain;
 
 import com.google.code.morphia.annotations.Entity;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import models.utils.TagCss;
 import play.modules.morphia.Model;
-import play.utils.Utils;
 
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -42,13 +37,13 @@ public class Tag extends Model{
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {return true;}
+        if (o == null || getClass() != o.getClass()) {return false; }
 
 
         Tag tag = (Tag) o;
 
-        if (lblTag != null ? !lblTag.equals(tag.lblTag) : tag.lblTag != null) return false;
+        if (lblTag != null ? !lblTag.equals(tag.lblTag) : tag.lblTag != null){ return false;}
 
         return true;
     }

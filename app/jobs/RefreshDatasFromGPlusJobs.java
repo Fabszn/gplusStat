@@ -20,6 +20,7 @@ import models.utils.HtmlUtils;
 import org.apache.commons.collections.Closure;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
+import play.Logger;
 import play.jobs.Every;
 import play.jobs.Job;
 import play.jobs.On;
@@ -41,7 +42,7 @@ public class RefreshDatasFromGPlusJobs extends Job {
 
     @Override
     public void doJob() throws Exception {
-        System.out.println("start shedule job");
+        Logger.info("start shedule job");
 
         final Plus plus = new Plus(httpTransport, jsonFactory);
         // When we do not specify access tokens, we must specify our API key
@@ -65,7 +66,7 @@ public class RefreshDatasFromGPlusJobs extends Job {
             ActivityFeed feed = activitiesFromGplus.execute();
             List<Activity> activities = feed.getItems();
             while (activities != null) {
-                System.out.println("turn " + activities.size());
+                Logger.debug("turn " + activities.size());
                 // Execute and process the next page request
                 for (final Activity activity : activities) {
 
@@ -86,7 +87,7 @@ public class RefreshDatasFromGPlusJobs extends Job {
                 activities = feed.getItems();
             }
         } catch (final IOException e) {
-            e.printStackTrace();
+            Logger.error(e.getMessage(),e);
         }
         saveTags(tagFromGplus, localActivityWrappers);
 
@@ -102,7 +103,6 @@ public class RefreshDatasFromGPlusJobs extends Job {
         for (final Article a : fromGPlus) {
 
             if (!fromDBList.contains(a)) {
-                //System.out.println("save " + a.getTitle());
                 a.setCurrent(Boolean.TRUE);
                 a.save();
 
@@ -120,7 +120,7 @@ public class RefreshDatasFromGPlusJobs extends Job {
         }
         createStatistique(localActivityWrappers);
 
-        System.out.println("End Job");
+        Logger.info("End Job");
     }
 
     private void saveTags(Set<Tag> tagFromGplus, final List<ActivityWrapper> localActivityWrappers) {
@@ -138,7 +138,6 @@ public class RefreshDatasFromGPlusJobs extends Job {
                     }
                 });
                 if (!tags.contains(currentTag)) {
-                    //System.out.println("save " + currentTag);
                     currentTag.save();
                 }
             }

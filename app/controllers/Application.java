@@ -18,6 +18,8 @@ import models.domain.Article;
 import models.domain.Statistiques;
 import models.domain.Tag;
 import models.utils.ConfUtil;
+import play.Logger;
+import play.Play;
 import play.mvc.Controller;
 
 import javax.annotation.Nullable;
@@ -29,6 +31,7 @@ import java.util.Set;
 public class Application extends Controller {
     final static JsonFactory jsonFactory = new JacksonFactory();
     final static HttpTransport httpTransport = new NetHttpTransport();
+
 
     @Deprecated
     public static void index() {
@@ -62,7 +65,7 @@ public class Application extends Controller {
                 activityWrappers.add(activityWrapper);
             }
         } catch (final IOException e) {
-            e.printStackTrace();
+            Logger.debug(e.getMessage(), e);
         }
         ActivitiesHelper aov = new ActivitiesHelper();
         aov.setActivityWrappers(activityWrappers);
@@ -97,7 +100,6 @@ public class Application extends Controller {
 
 
         Set<String> maps = tags.getArticleIds();
-        System.out.println(maps.size());
         Collection<Article> l = Collections2.transform(maps, new Function<String, Article>() {
             public Article apply(@Nullable String s) {
 
@@ -136,7 +138,7 @@ public class Application extends Controller {
                 activityWrappers.add(activityWrapper);
             }
         } catch (final IOException e) {
-            e.printStackTrace();
+            Logger.error(e.getMessage(), e);
         }
         ActivitiesHelper aov = new ActivitiesHelper();
         aov.setActivityWrappers(activityWrappers);
@@ -145,8 +147,7 @@ public class Application extends Controller {
         Article b = new Article("boboqs1", w.getContent(), "sdfdsfds1", 1, 2, 654, w.getTitle(), 321, "");
         b.save();
 
-        System.out.println(w.getTitle());
-        Article b2 = (Article) Article.filter("googleId", "sdfdsfds1").asList().get(0);
+        Logger.debug(w.getTitle());
         render(w);
     }
 

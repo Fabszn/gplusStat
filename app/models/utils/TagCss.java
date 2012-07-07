@@ -2,6 +2,7 @@ package models.utils;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
+import play.Logger;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
@@ -34,11 +35,11 @@ public enum TagCss {
 
         Collection<TagCss> result = Collections2.filter(tCss,new Predicate<TagCss>() {
             public boolean apply(@Nullable TagCss tagCss) {
-                System.out.println((tagCss.max>=nb && nb>=tagCss.min) + "  " + nb);
+                Logger.debug((tagCss.max>=nb && nb>=tagCss.min) + "  " + nb);
                 return tagCss.max>=nb && nb>=tagCss.min;
             }
         });
-             System.out.println("sqsdsf " + result.size());
+        Logger.debug("sqsdsf " + result.size());
         return result.iterator().next().lbl;
     }
 

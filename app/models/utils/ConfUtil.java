@@ -1,6 +1,7 @@
 package models.utils;
 
 import com.google.common.base.Preconditions;
+import play.Logger;
 import play.Play;
 
 import java.io.File;
@@ -13,7 +14,9 @@ import java.util.Properties;
  * @author fsznajderman
  *         date :  03/06/12
  */
-public class ConfUtil {
+public final class ConfUtil {
+
+    private ConfUtil(){}
 
       public static final String PATH_GOOGLE_KEY_PROPERTIES = "google.info.path";
 
@@ -25,7 +28,7 @@ public class ConfUtil {
         try {
             p.load(new FileInputStream(new File(path)));
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.error(e.getMessage(),e);
         }
 
         return p.getProperty(key);

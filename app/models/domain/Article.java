@@ -2,6 +2,7 @@ package models.domain;
 
 import com.google.code.morphia.annotations.Entity;
 
+import com.google.common.collect.ComparisonChain;
 import play.modules.morphia.Model;
 
 
@@ -91,17 +92,15 @@ public class Article extends Model {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {return true;}
+        if (o == null || getClass() != o.getClass()){ return false; }
 
 
         Article article = (Article) o;
+       return ComparisonChain.start().compare(plusOne,article.plusOne)
+                 .compare(shared,article.shared)
+                .compare(googleId,article.googleId).result() == 0;
 
-        if (plusOne != article.plusOne) return false;
-        if (shared != article.shared) return false;
-        if (googleId != null ? !googleId.equals(article.googleId) : article.googleId != null) return false;
-
-        return true;
     }
 
     @Override

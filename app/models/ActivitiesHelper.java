@@ -135,12 +135,10 @@ public class ActivitiesHelper {
     public List<Article> articlesFilter(List<Article> articles) {
 
         final Set<String> googleIds = Sets.newHashSet();
-        final List<Article> finalArticles = Lists.newArrayList();
 
         for (Article a : articles) {
             googleIds.add(a.getGoogleId());
 
-            Collection<Article> temp = Collections2.filter(articles, new GoogleIdPredicate(a.getGoogleId()));
 
 
 

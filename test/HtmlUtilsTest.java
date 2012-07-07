@@ -8,6 +8,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import play.Logger;
 import play.test.*;
 import models.*;
 
@@ -31,7 +32,7 @@ public class HtmlUtilsTest {
        Matcher m = p.matcher(content);
 
         while (m.find()) {
-            System.out.println(m.group());
+            Logger.debug(m.group());
         }
     }
 

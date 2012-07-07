@@ -22,8 +22,10 @@ import java.util.regex.Pattern;
  * @author fsznajderman
  *         date :  07/03/12
  */
-public class HtmlUtils {
+public final class HtmlUtils {
 
+
+    private HtmlUtils(){}
 
     public static String getActivityTitle(ActivityWrapper activityWrapper) {
         return extractHtmlContent("b", activityWrapper);

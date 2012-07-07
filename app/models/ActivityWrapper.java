@@ -8,11 +8,11 @@ import com.google.common.collect.Collections2;
 import models.domain.Article;
 import models.domain.Tag;
 import models.utils.HtmlUtils;
+import play.Logger;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Provides a simplify view of Activity
@@ -38,7 +38,7 @@ public class ActivityWrapper {
 
 	public Long getNbPlusOners() {
 		if (plusObject.getPlusoners() == null) {
-			System.out.println("none item");
+			Logger.debug("none item");
             return 0L;
 		}
 

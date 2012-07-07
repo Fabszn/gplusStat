@@ -11,14 +11,13 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import models.ActivityWrapper;
 import models.domain.Article;
-import models.domain.Tag;
 import models.utils.ConfUtil;
 import org.apache.commons.collections.Closure;
 import org.apache.commons.collections.CollectionUtils;
+import play.Logger;
 import play.mvc.Controller;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -50,14 +49,13 @@ public class MajDB extends Controller{
         activitiesFromGplus.setFields("nextPageToken,items(id,url,published,object(content,plusoners,resharers))");
 
         final Set<Article> fromGPlus = Sets.newHashSet();
-        final Set<Tag> tagFromGplus = Sets.newHashSet();
         final List<ActivityWrapper> localActivityWrappers = Lists.newArrayList();
         try {
 
             ActivityFeed feed = activitiesFromGplus.execute();
             List<Activity> activities = feed.getItems();
             while (activities != null) {
-                System.out.println("turn " + activities.size());
+                Logger.debug( "turn " + activities.size());
                 // Execute and process the next page request
                 for (final Activity activity : activities) {
 
@@ -78,7 +76,7 @@ public class MajDB extends Controller{
                 activities = feed.getItems();
             }
         } catch (final IOException e) {
-            e.printStackTrace();
+           Logger.error(e.getMessage(), e);
         }
 
         CollectionUtils.forAllDo(localActivityWrappers,new Closure() {
@@ -89,8 +87,7 @@ public class MajDB extends Controller{
                 final Article a = (Article)Article.q().filter("googleId",googleId)._get();
 
 
-
-                System.out.println(a + " " + a.getUrl() );
+                Logger.debug(a + " " + a.getUrl());
 
                 a.o().set("title",w.getTitle()).update("googleId",googleId);
                 a.o().set("url",w.getUrl()).update("googleId",googleId);
