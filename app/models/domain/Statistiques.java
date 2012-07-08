@@ -135,28 +135,17 @@ public class Statistiques extends Model {
         Statistiques that = (Statistiques) o;
 
 
-        return ComparisonChain.start().compare(this.getBestGoogleID(), that.getBestGoogleID())
+        return ComparisonChain.start()
                 .compare(bestNamePost, that.bestNamePost)
                 .compare(bestTitlePost, that.bestTitlePost)
                 .compare(plusOneMatrix, that.plusOneMatrix)
                 .compare(sharedMatrix, that.sharedMatrix)
                 .compare(sumPlusOne, that.sumPlusOne)
                 .compare(this.sumShared, that.sumShared)
-                .compare(this.titleMatrix, that.titleMatrix).result() == 0;
+                .result() == 0;
 
 
-        /*if (bestGoogleID != null ? !bestGoogleID.equals(that.bestGoogleID) : that.bestGoogleID != null) return false;
-        if (bestNamePost != null ? !bestNamePost.equals(that.bestNamePost) : that.bestNamePost != null) return false;
-        if (bestTitlePost != null ? !bestTitlePost.equals(that.bestTitlePost) : that.bestTitlePost != null)
-            return false;
-        if (plusOneMatrix != null ? !plusOneMatrix.equals(that.plusOneMatrix) : that.plusOneMatrix != null)
-            return false;
-        if (sharedMatrix != null ? !sharedMatrix.equals(that.sharedMatrix) : that.sharedMatrix != null) return false;
-        if (sumPlusOne != null ? !sumPlusOne.equals(that.sumPlusOne) : that.sumPlusOne != null) return false;
-        if (sumShared != null ? !sumShared.equals(that.sumShared) : that.sumShared != null) return false;
-        if (titleMatrix != null ? !titleMatrix.equals(that.titleMatrix) : that.titleMatrix != null) return false;  */
 
-        /*return true;    */
     }
 
     @Override
