@@ -5,13 +5,9 @@
 <script>
 
 
-
-
-
     $(function() {
         $('#popinContent').dialog({autoOpen: false,height: 495, show: "blind",hide: "blind", width: 977,modal:true,title:"Article(s) en relation avec ce tag" });
         $("#myTab a:first").click();
-
 
 
         try {
@@ -32,29 +28,40 @@
         }
 
 
+
+
     });
 
 </script>
 <div>
 
     <a href="http://www.xiti.com/xiti.asp?s=508921" title="WebAnalytics" target="_top">
-    <script type="text/javascript">
-    <!--
-    Xt_param = 's=508921&p=homePage';
-    try {Xt_r = top.document.referrer;}
-    catch(e) {Xt_r = document.referrer; }
-    Xt_h = new Date();
-    Xt_i = '<img width="80" height="15" border="0" alt="" ';
-    Xt_i += 'src="http://logv17.xiti.com/g.xiti?'+Xt_param;
-    Xt_i += '&hl='+Xt_h.getHours()+'x'+Xt_h.getMinutes()+'x'+Xt_h.getSeconds();
-    if(parseFloat(navigator.appVersion)>=4)
-    {Xt_s=screen;Xt_i+='&r='+Xt_s.width+'x'+Xt_s.height+'x'+Xt_s.pixelDepth+'x'+Xt_s.colorDepth;}
-    document.write(Xt_i+'&ref='+Xt_r.replace(/[<>"]/g, '').replace(/&/g, '$')+'" title="Internet Audience">');
-    //-->
-    </script>
-    <noscript>
-    Mesure d'audience ROI statistique webanalytics par <img width="80" height="15" src="http://logv17.xiti.com/g.xiti?s=508921&p=homepage" alt="WebAnalytics" />
-    </noscript></a>
+        <script type="text/javascript">
+            <!--
+            Xt_param = 's=508921&p=homePage';
+            try {
+                Xt_r = top.document.referrer;
+            }
+            catch(e) {
+                Xt_r = document.referrer;
+            }
+            Xt_h = new Date();
+            Xt_i = '<img width="80" height="15" border="0" alt="" ';
+            Xt_i += 'src="http://logv17.xiti.com/g.xiti?' + Xt_param;
+            Xt_i += '&hl=' + Xt_h.getHours() + 'x' + Xt_h.getMinutes() + 'x' + Xt_h.getSeconds();
+            if (parseFloat(navigator.appVersion) >= 4) {
+                Xt_s = screen;
+                Xt_i += '&r=' + Xt_s.width + 'x' + Xt_s.height + 'x' + Xt_s.pixelDepth + 'x' + Xt_s.colorDepth;
+            }
+            document.write(Xt_i + '&ref=' + Xt_r.replace(/[<>"]/g, '').replace(/&/g, '$') + '" title="Internet Audience">');
+            //-->
+        </script>
+        <noscript>
+            Mesure d'audience ROI statistique webanalytics par <img width="80" height="15"
+                                                                    src="http://logv17.xiti.com/g.xiti?s=508921&p=homepage"
+                                                                    alt="WebAnalytics"/>
+        </noscript>
+    </a>
 </div>
 
 <div class="container">
@@ -68,104 +75,117 @@
 </div>
 <div class="tabbable tabs-left">
     <ul class="nav nav-tabs Kaffeesatz" id="myTab">
-        <li><a href="#tab0" ><h2>Home</h2></a></li>
+        <li><a href="#tab0"><h2>Home</h2></a></li>
         <li><a href="#tab1"><h2>D&eacute;tails</h2></a></li>
         <li><a href="#tab2"><h2>Articles</h2></a></li>
     </ul>
 
     <div class="tab-content Kaffeesatz">
 
-            <div class="container tab-pane" id="tab0">
-                <div class="row span12">
-                    <div align="center" id="myCanvasContainer span6">
-                        <canvas width="300" height="300" id="myCanvas">
-                            <p> Anything in here will be replaced on browsers that support the canvas element </p>
-                        </canvas>
-                    </div>
-                </div>
-                <div class="row span12">
-                    <div class="well">
-                        Cette page a pour objectif de pr&eacute;senter, de mani&egrave;re synth&eacute;tique, les informations li&eacute;es &agrave; la page <a href="http://gplus.to/javafr" target="_blank"> google plus java FR (http://gplus.to/javafr)</a> </br>
-                        Vous trouverez sur cette page la liste de tous les articles publi&eacute;s sur google+. Aussi, &agrave; l'aide du nuage de tags ci-dessus, la possibilit&eacute; d'acc&eacute;der aux articles par th&egrave;me.
-                    </div>
+        <div class="container tab-pane" id="tab0">
+            <div class="row span12">
+                <div align="center" id="myCanvasContainer span6">
+                    <canvas width="300" height="300" id="myCanvas">
+                        <p> Anything in here will be replaced on browsers that support the canvas element </p>
+                    </canvas>
                 </div>
             </div>
+            <div class="row span12">
+                <div class="well">
+                    Cette page a pour objectif de pr&eacute;senter, de mani&egrave;re synth&eacute;tique, les
+                    informations li&eacute;es &agrave; la page <a href="http://gplus.to/javafr" target="_blank"> google
+                    plus java FR (http://gplus.to/javafr)</a> </br>
+                    Vous trouverez sur cette page la liste de tous les articles publi&eacute;s sur google+.
+                    Aussi, &agrave; l'aide du nuage de tags ci-dessus, la possibilit&eacute; d'acc&eacute;der aux
+                    articles par th&egrave;me.
+                </div>
+            </div>
+        </div>
 
 
+        <div class="container tab-pane" id="tab1">
+            <div class="row">
+                <div class="span6 r"><h1>Articles</h1></div>
+            </div>
+            <div class="row  show-grid">
+                <div class="span6 dice"><h1>${viewInformations.articles.size}</h1></div>
+            </div>
+            <div class="row">
+                <div class="span6 right"><h1>+1</h1></div>
+            </div>
+            <div class="row show-grid">
+                <div class="span6 dice"><h1>${viewInformations.compileSumPlusOnePage} </h1></div>
+            </div>
+            <div class="row">
+                <div class="span6 right"><h1>Partage</h1></div>
+            </div>
+            <div class="row show-grid">
+                <div class="span6 dice"><h1>${viewInformations.compileSumShared} </h1></div>
 
-            <div class="container tab-pane" id="tab1">
-                <div class="row">
-                    <div class="span6 r"><h1>Articles</h1></div>
-                </div>
-                <div class="row  show-grid">
-                    <div class="span6 dice"><h1>${viewInformations.articles.size}</h1></div>
-                </div>
-                <div class="row">
-                    <div class="span6 right"><h1>+1</h1></div>
-                </div>
-                <div class="row show-grid">
-                    <div class="span6 dice"><h1>${viewInformations.compileSumPlusOnePage} </h1></div>
-                </div>
-                <div class="row">
-                    <div class="span6 right"><h1>Partage</h1></div>
-                </div>
-                <div class="row show-grid">
-                    <div class="span6 dice"><h1>${viewInformations.compileSumShared} </h1></div>
+            </div>
+            <div class="row">
+                <div class="span6 right"><h1>Meilleur article</h1></div>
+            </div>
 
-                </div>
-                <div class="row">
-                    <div class="span6 right"><h1>Meilleur article</h1></div>
-                </div>
+            <div class="row">
 
-                <div class="row">
-
-                    <div class="span12 dice"><h2> <span class=" text redactorbestArticle">
+                <div class="span12 dice"><h2> <span class=" text redactorbestArticle">
                         ${viewInformations.bestTitrePost}  </span></h2> by <h3>
-                        <span class=" text redactorbestArticle">${viewInformations.bestNamePost}</span></h3>
-                    </div>
+                    <span class=" text redactorbestArticle">${viewInformations.bestNamePost}</span></h3>
                 </div>
             </div>
+        </div>
 
 
-            <div class="container tabArticles tab-pane" id="tab2">
 
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th><H2>Article</H2></th>
-                        <th><H2>Auteur</H2></th>
-                        <th><H2>+1</H2></th>
-                        <th><H2>Partage</H2></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    #{list items:viewInformations.articles, as:'task'}
-                    <tr>
-                        <td style=" vertical-align: middle;"><a href="${task.url}" target="_blank"><h4>${task.title}</h4></a></td>
-                        <td style="text-align: center; vertical-align: middle;"><h4>${task.author}</h4></td>
-                        <td style="text-align: center; vertical-align: middle;"><H2>${task.plusOne}</H2></td>
-                        <td style="text-align: center; vertical-align: middle;"><H2>${task.shared}</H2></td>
-                    </tr>
-                    #{/list}
-                    </tbody>
-                </table>
+        <div class="container tabArticles tab-pane" id="tab2">
+            <i class="icon-search" id="searchIcon"></i>
+            <div id="searchengine" style="display: none" >
+             <input type="text" id="regEx" class="input-large search-query">
+                    <button id="btnsearch">Search</button>
+                    <button id="btnclear">Clear</button>
+             </div>
 
-            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th><H2>Article</H2></th>
+                    <th><H2>Auteur</H2></th>
+                    <th><H2>+1</H2></th>
+                    <th><H2>Partage</H2></th>
+                </tr>
+                </thead>
+                <tbody>
+                #{list items:viewInformations.articles, as:'task'}
+                <tr id="${task.googleId}" class="blockArticle">
+                    <td style=" vertical-align: middle;"><a href="${task.url}" target="_blank"><h4 class="articleTitle">
+                        ${task.title}</h4>
+                    </a></td>
+                    <td style="text-align: center; vertical-align: middle;"><h4>${task.author}</h4></td>
+                    <td style="text-align: center; vertical-align: middle;"><H2>${task.plusOne}</H2></td>
+                    <td style="text-align: center; vertical-align: middle;"><H2>${task.shared}</H2></td>
+                </tr>
+                #{/list}
+                </tbody>
+            </table>
 
+        </div>
 
 
     </div>
     <div id="tags">
-                    <ul>
-                        #{list items:viewInformations.tags, as:'task'}
-                        <li><a href="#" class="${task.cssClass} popin" id="${task.lblTag}"> ${task.lblTag} </a></li>
-                        #{/list}
+        <ul>
+            #{list items:viewInformations.tags, as:'task'}
+            <li><a href="#" class="${task.cssClass} popin" id="${task.lblTag}"> ${task.lblTag} </a></li>
+            #{/list}
 
 
-                    </ul>
-                </div>
+        </ul>
+    </div>
 
     <script>
+
+
 
         $('#myTab a').click(function (e) {
             e.preventDefault();
@@ -177,21 +197,82 @@
             var url = "/articlesByTag/" + $(this).attr('id');
 
             $('#popinContent').load(url, function() {
-
-
                 $('#popinContent').dialog('open');
-
             });
 
 
         });
+        var inactifArticle = new Array();
+        var isClear = true;
+
+
+
+        $('#btnsearch').click(function() {
+
+            if (!isClear) {
+                clear();
+                isClear = true;
+            }
+
+            var tab = $('.articleTitle');
+
+
+            var search = $('#regEx').attr('value');
+            console.log(search)
+            //search without case sensitive and returns all cases that not match  with regex
+            regexp = new RegExp(search, "i");
+            result = $.grep(tab, function(tr) {
+                return ($(tr).text().search(regexp) > 0)
+            }, true);
+            $(result).each(function() {
+                current = $(this).parent().parent().parent();
+                inactifArticle.push(current);
+                current.fadeOut();
+            });
+            console.log(inactifArticle.length);
+             isClear = false;
+
+        });
+
+
+        $('#btnclear').click(function(){
+            clear();
+        });
+
+        function clear() {
+            isClear = true;
+
+            if (inactifArticle.length > 0) {
+                $(inactifArticle).each(function() {
+                    $(this).fadeIn();
+                });
+                inactifArticle = new Array();
+            }
+        }
+
+        $("#regEx").keyup(function(){
+            if($(this).attr('value').length == 0){
+                clear();
+            }
+        })
+
+
+        $('#searchIcon').click(function() {
+            if (!$.searchShow) {
+                $('#searchengine').show('slide', {}, 500, function() {
+                    $.searchShow = true;
+                });
+            } else {
+                $('#searchengine').fadeOut();
+                $.searchShow = false;
+                clear();
+            }
+        })
+
+
 
     </script>
 </div>
-
-
-
-
 
 
 <div style="display: none;" id="popinContent"></div>
