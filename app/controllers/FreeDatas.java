@@ -2,16 +2,22 @@ package controllers;
 
 
 import com.google.common.base.Function;
+import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Ordering;
 import models.ViewInformations;
 import models.domain.Article;
 import models.domain.Statistiques;
 import models.domain.Tag;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.ListUtils;
 import play.mvc.Controller;
+import sun.misc.ASCIICaseInsensitiveComparator;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -43,17 +49,13 @@ public class FreeDatas extends Controller {
     public static void titles() {
 
         final List<Article> articles = Article.q().filter("current", true).asList();
-
-
-        Collection<String> titles = Collections2.transform(articles, new Function<Article, String>() {
-            public String apply(@Nullable Article article) {
-                return article.getTitle();
+        List<Article> orderedList = Ordering.from(new Comparator<Article>() {
+            public int compare(Article o1, Article o2) {
+                return new Long(o1.getInsertionDate()).compareTo(new Long(o2.getInsertionDate()));
             }
-        });
+        }).sortedCopy(articles);
 
-
-
-        renderJSON(titles);
+        renderJSON(orderedList);
     }
 
 }
