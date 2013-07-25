@@ -34,6 +34,9 @@ import java.util.List;
 public class FreeDatas extends Controller {
 
 
+    public static final int BEGIN_INDEX = 0;
+    public static final int END_INDEX = 9;
+
     public static void freeStatGplus() {
 
         final List<Article> articles = Article.q().filter("current", true).asList();
@@ -66,11 +69,12 @@ public class FreeDatas extends Controller {
 
         final List<Article> articles = Article.q().filter("current", true).asList();
 
+
         final HashSet<String> l = Sets.newHashSet(Splitter.on('-').split(synchro));
 
         final Collection<Article> as = Collections2.filter(articles, new Predicate<Article>() {
-            public boolean apply(@Nullable Article article) {
-                return !l.contains(article.getGoogleId());
+            public boolean apply(Article article) {
+                return !l.contains(article.getGoogleId().substring(BEGIN_INDEX, END_INDEX));
             }
         });
         renderJSON(as);
