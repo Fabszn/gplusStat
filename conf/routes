@@ -20,6 +20,7 @@ GET /majDB                                          MajDB.update
 GET /title                                          FreeDatas.titles
 
 GET /synchro/{synchro}                             FreeDatas.diff
+GET /tagSynchro                            FreeDatas.tagSynchro
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

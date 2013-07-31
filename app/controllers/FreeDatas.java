@@ -80,4 +80,12 @@ public class FreeDatas extends Controller {
         renderJSON(as);
     }
 
+    public static void tagSynchro() {
+
+            final List<Tag> tags = Tag.findAll();
+
+            renderJSON(tags);
+        }
+
+
 }
